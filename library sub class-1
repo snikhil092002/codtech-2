@@ -1,0 +1,54 @@
+package LibraryManagementSystem;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Library {
+    private Map<Integer, Book> books;
+    private int nextBookId;
+
+    public Library() {
+        books = new HashMap<>();
+        nextBookId = 1;
+    }
+
+    public void addBook(Book book) {
+        book.setId(nextBookId);
+        books.put(nextBookId, book);
+        System.out.println("Book added successfully. Book ID: " + nextBookId);
+        nextBookId++;
+    }
+
+    public void borrowBook(int bookId) {
+        Book book = books.get(bookId);
+        if (book != null && !book.isBorrowed()) {
+            book.setBorrowed(true);
+            System.out.println("You have borrowed: " + book.getTitle());
+        } else if (book != null && book.isBorrowed()) {
+            System.out.println("Sorry, the book is already borrowed.");
+        } else {
+            System.out.println("Book not found.");
+        }
+    }
+
+    public void returnBook(int bookId) {
+        Book book = books.get(bookId);
+        if (book != null && book.isBorrowed()) {
+            book.setBorrowed(false);
+            System.out.println("You have returned: " + book.getTitle());
+        } else if (book != null && !book.isBorrowed()) {
+            System.out.println("The book was not borrowed.");
+        } else {
+            System.out.println("Book not found.");
+        }
+    }
+
+    public void viewAvailableBooks() {
+        System.out.println("Available Books:");
+        for (Book book : books.values()) {
+            if (!book.isBorrowed()) {
+                System.out.println("ID: " + book.getId() + ", Title: " + book.getTitle());
+            }
+        }
+    }
+}
